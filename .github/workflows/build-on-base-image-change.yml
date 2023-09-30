@@ -18,7 +18,7 @@ jobs:
         id: baseupdatecheck
         uses: lucacome/docker-image-update-checker@v1.2.1
         with:
-          base-image: lscr.io/linuxserver/sabnzbd
+          base-image: ghcr.io/linuxserver/sabnzbd
           image: treyturner/$PROJECT_NAME
 
       - name: DockerHub login
