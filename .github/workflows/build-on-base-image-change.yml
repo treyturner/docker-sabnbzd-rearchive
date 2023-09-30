@@ -35,6 +35,10 @@ jobs:
         with:
           base-image: ghcr.io/linuxserver/sabnzbd
           image: treyturner/${{ env.PROJECT_NAME }}
+          base-reg-username: ${{ github.actor }}
+          base-reg-password: ${{ secrets.GITHUB_TOKEN }}
+          image-reg-username: ${{ secrets.DOCKERHUB_USERNAME }}
+          image-reg-password: ${{secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
         if: steps.check.outputs.needs-update == 'true'
