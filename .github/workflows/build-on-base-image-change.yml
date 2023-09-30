@@ -31,17 +31,13 @@ jobs:
 
       - name: Docker Image Update Checker
         id: check
-        uses: mkumatag/container-image-updater-action@v1.0.5
+        uses: ClementTsang/docker-check-base-image-diff@v0.0.2
         with:
-          base-image: ghcr.io/linuxserver/sabnzbd
-          image: treyturner/${{ env.PROJECT_NAME }}
-          base-reg-username: ${{ github.actor }}
-          base-reg-password: ${{ secrets.GITHUB_TOKEN }}
-          image-reg-username: ${{ secrets.DOCKERHUB_USERNAME }}
-          image-reg-password: ${{secrets.DOCKERHUB_TOKEN }}
+          base-image: docker://ghcr.io/linuxserver/sabnzbd
+          derived-image: docker://docker.io/treyturner/${{ env.PROJECT_NAME }}
 
       - name: Build and push
-        if: steps.check.outputs.needs-update == 'true'
+        if: steps.check.outputs.differs == 'true'
         uses: docker/build-push-action@v5
         with:
           context: .
