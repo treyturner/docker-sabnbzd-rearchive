@@ -30,16 +30,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker Image Update Checker
-        id: baseupdatecheck
-        uses: lucacome/docker-image-update-checker@v1.2.1
+        id: check
+        uses: mkumatag/container-image-updater-action@v1.0.5
         with:
           base-image: ghcr.io/linuxserver/sabnzbd
           image: treyturner/${{ env.PROJECT_NAME }}
-        env:
-          DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
 
       - name: Build and push
-        if: steps.baseupdatecheck.outputs.needs-updating == 'true'
+        if: steps.check.outputs.needs-update == 'true'
         uses: docker/build-push-action@v5
         with:
           context: .
