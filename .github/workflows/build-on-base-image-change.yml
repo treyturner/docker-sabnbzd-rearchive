@@ -35,6 +35,8 @@ jobs:
         with:
           base-image: ghcr.io/linuxserver/sabnzbd
           image: treyturner/${{ env.PROJECT_NAME }}
+        env:
+          DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
 
       - name: Build and push
         if: steps.baseupdatecheck.outputs.needs-updating == 'true'
