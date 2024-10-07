@@ -1,5 +1,8 @@
 name: Build and publish on base image update
+
 on:
+  push:
+    branches: [main]
   schedule:
     - cron: "0 4 * * *"
   workflow_dispatch:
@@ -37,7 +40,7 @@ jobs:
           derived-image: docker://docker.io/treyturner/${{ env.PROJECT_NAME }}
 
       - name: Build and push
-        if: steps.check.outputs.differs == 'true'
+        if: ${{ github.event_name != 'schedule' || steps.check.outputs.differs == 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: .
